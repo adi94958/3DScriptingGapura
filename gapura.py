@@ -1,5 +1,6 @@
 import bpy
 import math
+from math import radians
 
 def clear_scene():
         for obj in bpy.data.objects:
@@ -219,6 +220,67 @@ class Sphere(Object3D):
     def create(self):
         sphere_verts, sphere_faces = self.generate_sphere_verts()
         self.obj = self.create_mesh_object(self.name, sphere_verts, sphere_faces, self.location)
+        
+class Fence(Object3D):
+    def __init__(self, name, size, cuts, thickness, location=(0, 0, 0)):
+        super().__init__()
+        self.name = name
+        self.size = size
+        self.cuts = cuts
+        self.thickness = thickness
+        self.location = location
+        self.obj = None
+        self.create()
+
+    def create_dynamic_plane(self):
+        # Tambahkan plane
+        bpy.ops.mesh.primitive_plane_add(size=self.size, location=self.location)
+
+        # Resize dan rotasi plane
+        bpy.ops.transform.resize(value=(4.2, 1, 1))
+        bpy.ops.transform.rotate(value=radians(90), orient_axis='X')
+
+        # Mode Edit
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        # Subdivide plane dan poke face
+        bpy.ops.mesh.subdivide(number_cuts=self.cuts)
+        # bpy.ops.mesh.poke()
+
+        # Konversi tris ke quads
+        # bpy.ops.mesh.quads_convert_to_tris()
+        # bpy.ops.mesh.tris_convert_to_quads()
+        
+        # Ubah nama
+        bpy.context.active_object.name = self.name
+
+        # Mode Object
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        # Tambahkan modifier wireframe
+        bpy.ops.object.modifier_add(type='WIREFRAME')
+        wireframe_modifier = bpy.context.object.modifiers["Wireframe"]
+        wireframe_modifier.thickness = self.thickness
+        wireframe_modifier.use_boundary = True
+        bpy.ops.object.select_all(action='DESELECT')
+        
+    def translate_object(self, translasi_x, translasi_y, translasi_z):
+        if self.obj is not None:
+            super().translate_object(self.obj, translasi_x, translasi_y, translasi_z)
+        else:
+            print("Error: Fence object not created before translation.")
+
+    def create(self):
+        self.create_dynamic_plane()
+        # Dapatkan referensi objek berdasarkan nama
+        self.obj = bpy.data.objects.get(self.name)
+
+        # Jika objek belum dibuat, berikan pesan kesalahan
+        if self.obj is None:
+            print(f"Error: Object with name '{self.name}' not found.")
+        else:
+            self.objects.append(self.obj)
+
 
 def main():
     object3D = Object3D()
@@ -338,6 +400,9 @@ def main():
     joined_object.name = "atap"
     
     bpy.ops.object.select_all(action='DESELECT')
-
+#   BIKIN PAGER
+    size_fence = 25
+    fence_instance = Fence(name="PagarBesi", size=size_fence, cuts=10, thickness=0.4, location=(170, 107, size_fence/2))
+#    fence_instance.translate_object(170, 107, 25/2)
 if __name__ == "__main__":
     main()
