@@ -1,5 +1,13 @@
 import bpy
 import math
+from math import radians
+
+def clear_scene():
+        for obj in bpy.data.objects:
+            bpy.data.objects.remove(obj)
+
+        for mtr in bpy.data.materials:
+            bpy.data.materials.remove(mtr)
 
 class Object3D:
     def __init__(self):
@@ -212,6 +220,67 @@ class Sphere(Object3D):
     def create(self):
         sphere_verts, sphere_faces = self.generate_sphere_verts()
         self.obj = self.create_mesh_object(self.name, sphere_verts, sphere_faces, self.location)
+        
+class Fence(Object3D):
+    def __init__(self, name, size, cuts, thickness, location=(0, 0, 0)):
+        super().__init__()
+        self.name = name
+        self.size = size
+        self.cuts = cuts
+        self.thickness = thickness
+        self.location = location
+        self.obj = None
+        self.create()
+
+    def create_dynamic_plane(self):
+        # Tambahkan plane
+        bpy.ops.mesh.primitive_plane_add(size=self.size, location=self.location)
+
+        # Resize dan rotasi plane
+        bpy.ops.transform.resize(value=(4.2, 1, 1))
+        bpy.ops.transform.rotate(value=radians(90), orient_axis='X')
+
+        # Mode Edit
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        # Subdivide plane dan poke face
+        bpy.ops.mesh.subdivide(number_cuts=self.cuts)
+        # bpy.ops.mesh.poke()
+
+        # Konversi tris ke quads
+        # bpy.ops.mesh.quads_convert_to_tris()
+        # bpy.ops.mesh.tris_convert_to_quads()
+        
+        # Ubah nama
+        bpy.context.active_object.name = self.name
+
+        # Mode Object
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        # Tambahkan modifier wireframe
+        bpy.ops.object.modifier_add(type='WIREFRAME')
+        wireframe_modifier = bpy.context.object.modifiers["Wireframe"]
+        wireframe_modifier.thickness = self.thickness
+        wireframe_modifier.use_boundary = True
+        bpy.ops.object.select_all(action='DESELECT')
+        
+    def translate_object(self, translasi_x, translasi_y, translasi_z):
+        if self.obj is not None:
+            super().translate_object(self.obj, translasi_x, translasi_y, translasi_z)
+        else:
+            print("Error: Fence object not created before translation.")
+
+    def create(self):
+        self.create_dynamic_plane()
+        # Dapatkan referensi objek berdasarkan nama
+        self.obj = bpy.data.objects.get(self.name)
+
+        # Jika objek belum dibuat, berikan pesan kesalahan
+        if self.obj is None:
+            print(f"Error: Object with name '{self.name}' not found.")
+        else:
+            self.objects.append(self.obj)
+
 
 def main():
     object3D = Object3D()
@@ -225,20 +294,72 @@ def main():
         tiangSquareKiri = Square("tiangSquareKiri.001", 8, 5, 50, location=(0,0, 0))
         tiangSquareKiri.translate_object(tiangSquareKiri.obj, 50 + x_offset, 100, 0)
         
+#    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "pagar kiri"
+        
     for i in range(5):
         y_offset = i * 12
         tiangCylinder = Cylinder("tiangCylinder", 2, 60, num_segments=64, location=(0, 0, 0))
         tiangCylinder.translate_object(tiangCylinder.obj, 103, 110 + y_offset, 0)
     
+    #    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001','pagar kiri']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "tiang kiri"
+    
     for i in range(7):
         x_offset = i * 7
         tiangSquareKanan = Square("tiangSquareKanan.001", 3, 20, 100, location=(0,0, 0))
-        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 226 + x_offset, 100, 0)
+        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 226 + x_offset, 100, 0)\
+        
+    #    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001','pagar kiri', 'tiang kiri']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "pagar kanan"
         
     for i in range(7):
         x_offset = i * 8.3
         tiangSquareKanan = Square("tiangSquareKanan.001", 3, 20, 30, location=(0,0, 0))
         tiangSquareKanan.translate_object(tiangSquareKanan.obj, 268 + x_offset, 95, 0)
+        
+    #    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001','pagar kiri', 'tiang kiri', 'pagar kanan']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "pagar kanan2"
     
     for i in range(2):
         y_offset = i * 50
@@ -247,18 +368,41 @@ def main():
         
     ruangan = Square("ruangan.001", 3, 63.8, 60, location=(293, 107.2, 0))
     ruangan = Square("ruangan.001", 8, 27.8, 60, location=(226, 113, 0))
+    
+    #    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001','pagar kiri', 'tiang kiri', 'pagar kanan', 'pagar kanan2']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "ruangan"
+    
+    
     planeAtap = Square("planeAtap.001", 130, 71, 5, location=(98, 100, 60))
     planeAtapRuangan = Square("planeAtapRuangan.001", 70, 65, 5, location=(226, 107.2, 60))
     
-    #triangle = Triangle("segitiga" , 6, 4, 6, location=(10, 5, 0))
-    #cylinder = Cylinder("tabung", 3, 10, num_segments=64, location=(4, 2, 4))
-    #sphere = Sphere("bola", 2, num_segments=64, num_rings=32, location=(4, 10.5, 2))
+    #    Join Objek
+    bpy.ops.object.select_all(action='DESELECT')
+    objects_to_join = []
+    for obj in bpy.context.scene.objects:
+        if obj.name not in ['Camera','plane.001','pagar kiri', 'tiang kiri', 'pagar kanan', 'pagar kanan2', 'ruangan']:
+            objects_to_join.append(obj)
+            obj.select_set(True)
 
-    ## Rotasi objek
-    #square.rotate_object(square.obj, 45, 0, 0)
-    #triangle.rotate_object(triangle.obj, 0, 90, 0)
-    #cylinder.rotate_object(cylinder.obj, 0, 0, 45)
-    #sphere.rotate_object(sphere.obj, 30, 60, 90)
-
+    bpy.context.view_layer.objects.active = objects_to_join[0]
+    bpy.ops.object.join()   
+    joined_object = bpy.context.active_object
+    joined_object.name = "atap"
+    
+    bpy.ops.object.select_all(action='DESELECT')
+#   BIKIN PAGER
+    size_fence = 25
+    fence_instance = Fence(name="PagarBesi", size=size_fence, cuts=10, thickness=0.4, location=(170, 107, size_fence/2))
+#    fence_instance.translate_object(170, 107, 25/2)
 if __name__ == "__main__":
     main()
