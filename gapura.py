@@ -293,12 +293,12 @@ def main():
     object3D.clear_scene()
 
     ## Membuat instance dari kelas-kelas objek geometri
-    plane = Square("plane.001", 500, 600, 1, location=(-70, -80, 0))
+    plane = Square("plane.001", 50, 60, 0.1, location=(-7, -8, 0))
     
     for i in range(7):
-        x_offset = i * 10
-        tiangSquareKiri = Square("tiangSquareKiri.001", 8, 5, 50, location=(0,0, 0))
-        tiangSquareKiri.translate_object(tiangSquareKiri.obj, 50 + x_offset, 100, 0)
+        x_offset = i * 1
+        tiangSquareKiri = Square("tiangSquareKiri.001", 0.8, 0.5, 5, location=(0,0, 0))
+        tiangSquareKiri.translate_object(tiangSquareKiri.obj, 5 + x_offset, 10, 0)
         
 #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -314,9 +314,9 @@ def main():
     joined_object.name = "pagar kiri"
         
     for i in range(5):
-        y_offset = i * 12
-        tiangCylinder = Cylinder("tiangCylinder", 3, 60, num_segments=64, location=(0, 0, 0))
-        tiangCylinder.translate_object(tiangCylinder.obj, 103, 110 + y_offset, 0)
+        y_offset = i * 1.2
+        tiangCylinder = Cylinder("tiangCylinder", 0.3, 6, num_segments=64, location=(0, 0, 0))
+        tiangCylinder.translate_object(tiangCylinder.obj, 10.3, 11 + y_offset, 0)
     
     #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -332,9 +332,9 @@ def main():
     joined_object.name = "tiang kiri"
     
     for i in range(7):
-        x_offset = i * 7
-        tiangSquareKanan = Square("tiangSquareKanan.001", 3, 20, 100, location=(0,0, 0))
-        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 226 + x_offset, 100, 0)\
+        x_offset = i * 0.7
+        tiangSquareKanan = Square("tiangSquareKanan.001", 0.3, 2, 10, location=(0,0, 0))
+        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 22.6 + x_offset, 10, 0)
         
     #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -350,9 +350,9 @@ def main():
     joined_object.name = "pagar kanan"
         
     for i in range(7):
-        x_offset = i * 8.3
-        tiangSquareKanan = Square("tiangSquareKanan.001", 3, 20, 30, location=(0,0, 0))
-        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 268 + x_offset, 95, 0)
+        x_offset = i * 0.83
+        tiangSquareKanan = Square("tiangSquareKanan.001", 0.3, 2, 3, location=(0,0, 0))
+        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 26.8 + x_offset, 9.5, 0)
         
     #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -368,13 +368,13 @@ def main():
     joined_object.name = "pagar kanan2"
     
     for i in range(2):
-        y_offset = i * 50
-        ruangan = Square("ruangan.002", 68, 8, 60, location=(0, 0, 0))
-        ruangan.translate_object(ruangan.obj, 226, 113 + y_offset, 0)
+        y_offset = i * 5
+        ruangan = Square("ruangan.002", 6.8, 0.8, 6, location=(0, 0, 0))
+        ruangan.translate_object(ruangan.obj, 22.6, 11.3 + y_offset, 0)
         
-    ruangan = Square("ruangan.003", 3, 63.8, 60, location=(293, 107.2, 0))
-    ruangan = Square("ruangan.004", 8, 27.8, 60, location=(226, 113, 0))
-    ruangan = Square("ruangan.005", 8, 27.8, 29, location=(226, 138, 35))
+    ruangan = Square("ruangan.003", 0.3, 6.38, 6, location=(29.3, 10.72, 0))
+    ruangan = Square("ruangan.004", 0.8, 2.78, 6, location=(22.6, 11.3, 0))
+    ruangan = Square("ruangan.005", 0.8, 2.78, 2.9, location=(22.6, 13.8, 3.5))
     
     #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -390,8 +390,8 @@ def main():
     joined_object.name = "ruangan"
     
     
-    planeAtap = Square("planeAtap.001", 130, 72.2, 5, location=(98, 100, 60))
-    planeAtapRuangan = Square("planeAtapRuangan.001", 70, 65, 5, location=(226, 107.2, 60))
+    planeAtap = Square("planeAtap.001", 13, 7.22, 0.5, location=(9.8, 10, 6))
+    planeAtapRuangan = Square("planeAtapRuangan.001", 7, 6.5, 0.5, location=(22.6, 10.72, 6))
     
     #    Join Objek
     bpy.ops.object.select_all(action='DESELECT')
@@ -408,36 +408,36 @@ def main():
     
     bpy.ops.object.select_all(action='DESELECT')
 #   BIKIN PAGER
-    size_fence = 35
-    fence_instance = Fence(name="PagarBesi", width=3, length=1, heigth=1.2, size=size_fence, cuts=20, thickness=0.4, location=(0, 0, 0))
-    fence_instance.translate_object(172, 107, size_fence/2)
+    size_fence = 3.5
+    fence_instance = Fence(name="PagarBesi", width=3, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=0.1, location=(0, 0, 0))
+    fence_instance.translate_object(17.2, 10.7, size_fence/2)
     
-    bpy.ops.curve.tree_add(do_update=True, chooseSet='0', bevel=True, prune=False, showLeaves=True, useArm=False, seed=0, handleType='0', levels=2, length=(0.8, 0.6, 0.5, 0.1), lengthV=(0, 0.1, 0, 0), taperCrown=0.5, branches=(0, 55, 10, 1), curveRes=(8, 5, 3, 1), curve=(0, -15, 0, 0), curveV=(20, 50, 75, 0), curveBack=(0, 0, 0, 0), baseSplits=3, segSplits=(0.1, 0.5, 0.2, 0), splitByLen=True, rMode='rotate', splitAngle=(18, 18, 22, 0), splitAngleV=(5, 5, 5, 0), scale=60, scaleV=2, attractUp=(3.5, -1.89984, 0, 0), attractOut=(0, 0.8, 0, 0), shape='6', shapeS='10', customShape=(1, 1, 0.1, 0.5), branchDist=1.5, nrings=0, baseSize=0.3, baseSize_s=0.16, splitHeight=0.2, splitBias=0.55, ratio=0.015, minRadius=0.0015, closeTip=False, rootFlare=1, autoTaper=True, taper=(1, 1, 1, 1), radiusTweak=(1, 1, 1, 1), ratioPower=1.2, downAngle=(0, 26.21, 52.56, 30), downAngleV=(0, 10, 10, 10), useOldDownAngle=True, useParentAngle=True, rotate=(99.5, 137.5, 137.5, 137.5), rotateV=(15, 0, 0, 0), scale0=1, scaleV0=0.1, pruneWidth=0.34, pruneBase=0.12, pruneWidthPeak=0.5, prunePowerHigh=0.5, prunePowerLow=0.001, pruneRatio=0.75, leaves=150, leafDownAngle=30, leafDownAngleV=-10, leafRotate=137.5, leafRotateV=15, leafScale=3, leafScaleX=0.2, leafScaleT=0.1, leafScaleV=0.15, leafShape='hex', bend=0, leafangle=-12, horzLeaves=True, leafDist='6', bevelRes=1, resU=4, armAnim=False, previewArm=False, leafAnim=False, frameRate=1, loopFrames=0, wind=1, gust=1, gustF=0.075, af1=1, af2=1, af3=4, makeMesh=False, armLevels=2, boneStep=(1, 1, 1, 1))
-    size_fence = 40
-    PagarBesiKiri = Fence(name="PagarBesiKiri", width=2.8, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=4, location=(0, 0, 0))
-    PagarBesiKiri.translate_object(-8, 102.5, size_fence/2)
-    PagarBesiKanan = Fence(name="PagarBesiKanan", width=3.1, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=4, location=(0, 0, 0))
-    PagarBesiKanan.translate_object(360, 117, size_fence/2)
+    size_fence = 4
+    PagarBesiKiri = Fence(name="PagarBesiKiri", width=2.8, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=0.4, location=(0, 0, 0))
+    PagarBesiKiri.translate_object(-0.8, 10.25, size_fence/2)
+    PagarBesiKanan = Fence(name="PagarBesiKanan", width=3.1, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=0.4, location=(0, 0, 0))
+    PagarBesiKanan.translate_object(36, 11.7, size_fence/2)
+    
     
     #taman
-    balok1 = Square("balok.001", 6, 36, 8, location=(8, 10, 0))
-    balok2 = Square("balok.002", 6, 36, 8, location=(38, 10, 0)) 
-    balok3 = Square("balok.003", 6, 36, 8, location=(8, 16, 0))
+    balok1 = Square("balok.001", 0.6, 3.6, 0.8, location=(0.8, 1, 0))
+    balok2 = Square("balok.002", 0.6, 3.6, 0.8, location=(3.8, 1, 0)) 
+    balok3 = Square("balok.003", 0.6, 3.6, 0.8, location=(0.8, 1.6, 0))
     balok3.rotation_object(balok3.obj, 0, 0, -90)
-    balok4 = Square("balok.004", 6, 36, 8, location=(8, 46, 0))
+    balok4 = Square("balok.004", 0.6, 3.6, 0.8, location=(0.8, 4.6, 0))
     balok4.rotation_object(balok4.obj, 0, 0, -90)
-    kubus = Square("kubus", 9, 9, 14, location=(22, 23.5, 0))
-    meja = Square("meja", 20, 20, 0.5, location=(16, 17.5, 14))
-    tiang = Square("tiang", 4, 4, 35, location=(24.5, 25.5, 14))
-    bunga1 = Square("bunga.001", 1.5, 1.5, 25, location=(26, 28.5, 23))
+    kubus = Square("kubus", 0.9, 0.9, 1.4, location=(2.2, 2.35, 0))
+    meja = Square("meja", 2, 2, 0.05, location=(1.6, 1.75, 1.4))
+    tiang = Square("tiang", 0.4, 0.4, 3.5, location=(2.45, 2.55, 1.4))
+    bunga1 = Square("bunga.001", 0.15, 0.15, 2.5, location=(2.6, 2.85, 2.3))
     bunga1.rotation_object(bunga1.obj, 45, 0, 0)
-    bunga2 = Square("bunga.002", 1.5, 1.5, 22, location=(26, 28.5, 14))
+    bunga2 = Square("bunga.002", 0.15, 0.15, 2.2, location=(2.6, 2.85, 1.4))
     bunga2.rotation_object(bunga2.obj, 28, 0, 0)
-    bunga3 = Square("bunga.003", 1.5, 1.5, 8, location=(26, 16.5, 37))
+    bunga3 = Square("bunga.003", 0.15, 0.15, 0.8, location=(2.6, 1.65, 3.7))
     bunga3.rotation_object(bunga3.obj, -45, 0, 0)
-    bunga4 = Square("bunga.004", 1.5, 1.5, 8, location=(26, 24, 23))
+    bunga4 = Square("bunga.004", 0.15, 0.15, 0.8, location=(2.6, 2.4, 2.3))
     bunga4.rotation_object(bunga4.obj, 65, 0, 0)
-    bunga5 = Square("bunga.005", 1.5, 1.5, 6, location=(26, 17, 26.2))
+    bunga5 = Square("bunga.005", 0.15, 0.15, 0.6, location=(2.6, 1.7, 2.62))
     bunga5.rotation_object(bunga5.obj, 45, 0, 0)
     
     # meja duduk
@@ -453,7 +453,7 @@ def main():
 
     # Use the Object3D methods directly on the balok instance
     object3D.scale_object(balok, 0.5, 0.5, 0.5)
-    object3D.translate_object(balok, 17.5, 19, 45)
+    object3D.translate_object(balok, 1.75, 1.9, 4.5)
 
     bpy.ops.object.select_all(action='DESELECT')
     for i in range(1, 6):
@@ -465,7 +465,7 @@ def main():
     bpy.ops.object.duplicate(linked=False)
     bunga = bpy.context.view_layer.objects.active
 
-    object3D.translate_object(bunga, 27, 29, 33)
+    object3D.translate_object(bunga, 2.7, 2.9, 3.3)
     object3D.rotation_object(bunga, 45, 0, 180)
 
     bpy.ops.object.select_all(action='DESELECT')
@@ -483,23 +483,23 @@ def main():
     bpy.ops.object.join()
     bpy.data.objects[f'meja'].select_set(True)
     meja = bpy.context.view_layer.objects.active
-    object3D.translate_object(meja, 275, 230, 12)
+    object3D.translate_object(meja, 27.5, 23.0, 1.2)
     
     #duplikat meja duduk
     bpy.ops.object.join()
     bpy.ops.object.duplicate(linked=False)
     meja = bpy.context.view_layer.objects.active
 
-    object3D.translate_object(meja, 360, 230, 12)
+    object3D.translate_object(meja, 36.0, 23.0, 1.2)
     
     # end meja duduk
     
     
     #jalan dan bunderan
-    jalan1 = Square("jalan.001", 103, 600, 1, location=(120, -80, 0))
-    jalan2 = Square("jalan.002", 500, 103, 1, location=(-70, 300, 0))
-    bunderan1 = Cylinder("bunderan.001", 80, 1, num_segments=64, location=(86, 175.5, 0))
-    bunderan2 = Cylinder("bunderan.002", 35, 10, num_segments=64, location=(86, 175.5, 0))
+    jalan1 = Square("jalan.001", 10.3, 60.0, 0.1, location=(12, -8, 0))
+    jalan2 = Square("jalan.002", 50, 10.3, 0.1, location=(-7, 30, 0))
+    bunderan1 = Cylinder("bunderan.001", 8, 0.1, num_segments=64, location=(8.6, 17.55, 0))
+    bunderan2 = Cylinder("bunderan.002", 3.5, 1, num_segments=64, location=(8.6, 17.55, 0))
     
     #bpy.ops.curve.tree_add(do_update=True, chooseSet='0', bevel=True, prune=False, showLeaves=True, useArm=False, seed=0, handleType='0', levels=2, length=(0.8, 0.6, 0.5, 0.1), lengthV=(0, 0.1, 0, 0), taperCrown=0.5, branches=(0, 55, 10, 1), curveRes=(8, 5, 3, 1), curve=(0, -15, 0, 0), curveV=(20, 50, 75, 0), curveBack=(0, 0, 0, 0), baseSplits=3, segSplits=(0.1, 0.5, 0.2, 0), splitByLen=True, rMode='rotate', splitAngle=(18, 18, 22, 0), splitAngleV=(5, 5, 5, 0), scale=60, scaleV=2, attractUp=(3.5, -1.89984, 0, 0), attractOut=(0, 0.8, 0, 0), shape='6', shapeS='10', customShape=(1, 1, 0.1, 0.5), branchDist=1.5, nrings=0, baseSize=0.3, baseSize_s=0.16, splitHeight=0.2, splitBias=0.55, ratio=0.015, minRadius=0.0015, closeTip=False, rootFlare=1, autoTaper=True, taper=(1, 1, 1, 1), radiusTweak=(1, 1, 1, 1), ratioPower=1.2, downAngle=(0, 26.21, 52.56, 30), downAngleV=(0, 10, 10, 10), useOldDownAngle=True, useParentAngle=True, rotate=(99.5, 137.5, 137.5, 137.5), rotateV=(15, 0, 0, 0), scale0=1, scaleV0=0.1, pruneWidth=0.34, pruneBase=0.12, pruneWidthPeak=0.5, prunePowerHigh=0.5, prunePowerLow=0.001, pruneRatio=0.75, leaves=150, leafDownAngle=30, leafDownAngleV=-10, leafRotate=137.5, leafRotateV=15, leafScale=3, leafScaleX=0.2, leafScaleT=0.1, leafScaleV=0.15, leafShape='hex', bend=0, leafangle=-12, horzLeaves=True, leafDist='6', bevelRes=1, resU=4, armAnim=False, previewArm=False, leafAnim=False, frameRate=1, loopFrames=0, wind=1, gust=1, gustF=0.075, af1=1, af2=1, af3=4, makeMesh=False, armLevels=2, boneStep=(1, 1, 1, 1))
     
