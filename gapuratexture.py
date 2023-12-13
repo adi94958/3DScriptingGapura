@@ -366,6 +366,31 @@ def join_objects_and_set_material(object_names, new_object_name, material_color)
     joined_object.data.materials.append(material)
     material.use_nodes = True
     material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = material_color
+    
+def create_camera(location):
+    bpy.ops.object.camera_add(align='WORLD', location=location)
+    new_camera = bpy.context.active_object
+    return new_camera
+
+def add_track_to_constraint(camera, target):
+    track_to_constraint = camera.constraints.new(type='TRACK_TO')
+    track_to_constraint.target = target
+    track_to_constraint.track_axis = 'TRACK_NEGATIVE_Z'
+    track_to_constraint.up_axis = 'UP_Y'
+
+def animate_camera_rotation(camera, obj, start_frame, end_frame, axis, degrees):
+    bpy.context.scene.frame_start = start_frame
+    bpy.context.scene.frame_end = end_frame
+
+    for frame in range(start_frame, end_frame + 1):
+        bpy.context.scene.frame_set(frame)
+        angle = math.radians(degrees * (frame - start_frame) / (end_frame - start_frame))
+        camera.location.x = obj.location.x + 220 * math.cos(angle)
+        camera.location.y = obj.location.y + 220 * math.sin(angle)
+        camera.location.z = obj.location.z + 120
+        camera.rotation_euler[axis] = angle
+        camera.keyframe_insert(data_path="location", index=-1)
+        camera.keyframe_insert(data_path="rotation_euler", index=axis)
 
 def main():
     object3D = Object3D()
@@ -614,8 +639,19 @@ def main():
     bpy.context.object.data.energy = 1000
     bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(14, 35, 1), scale=(1, 1, 1))
     bpy.context.object.data.energy = 1000
-    #bpy.ops.curve.tree_add(do_update=True, chooseSet='0', bevel=True, prune=False, showLeaves=True, useArm=False, seed=0, handleType='0', levels=2, length=(0.8, 0.6, 0.5, 0.1), lengthV=(0, 0.1, 0, 0), taperCrown=0.5, branches=(0, 55, 10, 1), curveRes=(8, 5, 3, 1), curve=(0, -15, 0, 0), curveV=(20, 50, 75, 0), curveBack=(0, 0, 0, 0), baseSplits=3, segSplits=(0.1, 0.5, 0.2, 0), splitByLen=True, rMode='rotate', splitAngle=(18, 18, 22, 0), splitAngleV=(5, 5, 5, 0), scale=60, scaleV=2, attractUp=(3.5, -1.89984, 0, 0), attractOut=(0, 0.8, 0, 0), shape='6', shapeS='10', customShape=(1, 1, 0.1, 0.5), branchDist=1.5, nrings=0, baseSize=0.3, baseSize_s=0.16, splitHeight=0.2, splitBias=0.55, ratio=0.015, minRadius=0.0015, closeTip=False, rootFlare=1, autoTaper=True, taper=(1, 1, 1, 1), radiusTweak=(1, 1, 1, 1), ratioPower=1.2, downAngle=(0, 26.21, 52.56, 30), downAngleV=(0, 10, 10, 10), useOldDownAngle=True, useParentAngle=True, rotate=(99.5, 137.5, 137.5, 137.5), rotateV=(15, 0, 0, 0), scale0=1, scaleV0=0.1, pruneWidth=0.34, pruneBase=0.12, pruneWidthPeak=0.5, prunePowerHigh=0.5, prunePowerLow=0.001, pruneRatio=0.75, leaves=150, leafDownAngle=30, leafDownAngleV=-10, leafRotate=137.5, leafRotateV=15, leafScale=3, leafScaleX=0.2, leafScaleT=0.1, leafScaleV=0.15, leafShape='hex', bend=0, leafangle=-12, horzLeaves=True, leafDist='6', bevelRes=1, resU=4, armAnim=False, previewArm=False, leafAnim=False, frameRate=1, loopFrames=0, wind=1, gust=1, gustF=0.075, af1=1, af2=1, af3=4, makeMesh=False, armLevels=2, boneStep=(1, 1, 1, 1))
     
+    patokanCam = Square("patokanCam", 0, 0, 0, location=(0, 25, 15))
+    # kamera kedua
+    camera2 = create_camera((8, 8, 40))
+    add_track_to_constraint(camera2, bpy.context.scene.objects["patokanCam"])
+
+    # Pilih objek yang ingin diikuti oleh kamera
+    target_object = bpy.context.scene.objects["patokanCam"]  # Ganti "Cube" dengan nama objek yang sesuai
+
+    # Atur animasi rotasi kamera untuk kamera kedua
+    animation_start_frame = 1
+    animation_end_frame = 1000
+    animate_camera_rotation(camera2, target_object, animation_start_frame, animation_end_frame, 2, 360)
 
 
     
