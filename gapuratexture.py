@@ -2,13 +2,6 @@ import bpy
 import math
 from math import radians
 
-def clear_scene():
-        for obj in bpy.data.objects:
-            bpy.data.objects.remove(obj)
-
-        for mtr in bpy.data.materials:
-            bpy.data.materials.remove(mtr)
-
 class Object3D:
     def __init__(self):
         self.objects = []  # Menyimpan referensi objek-objek yang dibuat
@@ -385,9 +378,9 @@ def animate_camera_rotation(camera, obj, start_frame, end_frame, axis, degrees):
     for frame in range(start_frame, end_frame + 1):
         bpy.context.scene.frame_set(frame)
         angle = math.radians(degrees * (frame - start_frame) / (end_frame - start_frame))
-        camera.location.x = obj.location.x + 220 * math.cos(angle)
-        camera.location.y = obj.location.y + 220 * math.sin(angle)
-        camera.location.z = obj.location.z + 120
+        camera.location.x = obj.location.x + 80 * math.cos(angle)
+        camera.location.y = obj.location.y + 80 * math.sin(angle)
+        camera.location.z = obj.location.z + 10
         camera.rotation_euler[axis] = angle
         camera.keyframe_insert(data_path="location", index=-1)
         camera.keyframe_insert(data_path="rotation_euler", index=axis)
@@ -396,7 +389,7 @@ def main():
     object3D = Object3D()
     object3D.clear_scene()
 
-    ## Membuat instance dari kelas-kelas objek geometri
+    # Membuat instance dari kelas-kelas objek geometri
     plane = Square("plane.001", 50, 60, 0.1, location=(-7, -8, 0))
     
     for i in range(7):
@@ -404,7 +397,7 @@ def main():
         tiangSquareKiri = Square("tiangSquareKiri.001", 0.8, 0.5, 5, location=(0,0, 0))
         tiangSquareKiri.translate_object(tiangSquareKiri.obj, 5 + x_offset, 10, 0)
         
-#    Join Objek
+    # Join Objek
     bpy.ops.object.select_all(action='DESELECT')
     objects_to_join = []
     for obj in bpy.context.scene.objects:
@@ -422,7 +415,7 @@ def main():
         tiangCylinder = Cylinder("tiangCylinder", 0.3, 6, num_segments=64, location=(0, 0, 0))
         tiangCylinder.translate_object(tiangCylinder.obj, 10.3, 11 + y_offset, 0)
     
-    #    Join Objek
+    # Join Objek
     bpy.ops.object.select_all(action='DESELECT')
     objects_to_join = []
     for obj in bpy.context.scene.objects:
@@ -437,10 +430,17 @@ def main():
     
     for i in range(7):
         x_offset = i * 0.7
-        tiangSquareKanan = Square("tiangSquareKanan.001", 0.3, 2, 10, location=(0,0, 0))
-        tiangSquareKanan.translate_object(tiangSquareKanan.obj, 22.6 + x_offset, 10, 0)
+        tiangSquareKananDepan = Square("tiangSquareKananDepan.001", 0.3, 2, 10, location=(0,0, 0))
+        tiangSquareKananDepan.translate_object(tiangSquareKananDepan.obj, 22.6 + x_offset, 10, 0)
         
-    #    Join Objek
+        tiangSquareKananBelakang = Square("tiangSquareKananBelakang.001", 0.3, 2.3, 10, location=(0,0, 0))
+        tiangSquareKananBelakang.translate_object(tiangSquareKananBelakang.obj, 22.6 + x_offset, 17, 0)
+        
+        tiangSquareAtas = Square("tiangTriangle.001", 0.3, 4, 11, location=(0,0, 0))
+        tiangSquareAtas.translate_object(tiangSquareAtas.obj, 22.6 + x_offset, 10, 10)
+        tiangSquareAtas.rotation_object(tiangSquareAtas.obj, -90, 0, 0)
+        
+    # Join Objek
     bpy.ops.object.select_all(action='DESELECT')
     objects_to_join = []
     for obj in bpy.context.scene.objects:
@@ -458,7 +458,7 @@ def main():
         tiangSquareKanan = Square("tiangSquareKanan.001", 0.3, 2, 3, location=(0,0, 0))
         tiangSquareKanan.translate_object(tiangSquareKanan.obj, 26.8 + x_offset, 9.5, 0)
         
-    #    Join Objek
+    # Join Objek
     bpy.ops.object.select_all(action='DESELECT')
     objects_to_join = []
     for obj in bpy.context.scene.objects:
@@ -497,7 +497,7 @@ def main():
     planeAtap = Square("planeAtap.001", 13, 7.22, 0.5, location=(9.8, 10, 6))
     planeAtapRuangan = Square("planeAtapRuangan.001", 7, 6.5, 0.5, location=(22.6, 10.72, 6))
     
-    #    Join Objek
+    # Join Objek
     bpy.ops.object.select_all(action='DESELECT')
     objects_to_join = []
     for obj in bpy.context.scene.objects:
@@ -511,7 +511,8 @@ def main():
     joined_object.name = "atap"
     
     bpy.ops.object.select_all(action='DESELECT')
-#   BIKIN PAGER
+    
+    # pagar besi
     size_fence = 3.5
     fence_instance = Fence(name="PagarBesi", width=3, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=0.1, location=(0, 0, 0))
     fence_instance.translate_object(17.2, 10.7, size_fence/2)
@@ -521,9 +522,10 @@ def main():
     PagarBesiKiri.translate_object(-0.8, 10.25, size_fence/2)
     PagarBesiKanan = Fence(name="PagarBesiKanan", width=3.1, length=1, heigth=1.2, size=size_fence, cuts=10, thickness=0.4, location=(0, 0, 0))
     PagarBesiKanan.translate_object(36, 11.7, size_fence/2)
+    # end pagar besi
     
     
-    #taman
+    # tempat duduk
     balok1 = Square("balok.001", 0.6, 3.6, 0.8, location=(0.8, 1, 0))
     balok2 = Square("balok.002", 0.6, 3.6, 0.8, location=(3.8, 1, 0)) 
     balok3 = Square("balok.003", 0.6, 3.6, 0.8, location=(0.8, 1.6, 0))
@@ -531,7 +533,7 @@ def main():
     balok4 = Square("balok.004", 0.6, 3.6, 0.8, location=(0.8, 4.6, 0))
     balok4.rotation_object(balok4.obj, 0, 0, -90)
     kubus = Square("kubus", 0.9, 0.9, 1.4, location=(2.2, 2.35, 0))
-    meja = Square("meja", 2, 2, 0.05, location=(1.6, 1.75, 1.4))
+    meja = Square("meja.001", 2, 2, 0.05, location=(1.6, 1.75, 1.4))
     tiang = Square("tiang", 0.4, 0.4, 3.5, location=(2.45, 2.55, 1.4))
     bunga1 = Square("bunga.001", 0.15, 0.15, 2.5, location=(2.6, 2.85, 2.3))
     bunga1.rotation_object(bunga1.obj, 45, 0, 0)
@@ -544,7 +546,6 @@ def main():
     bunga5 = Square("bunga.005", 0.15, 0.15, 0.6, location=(2.6, 1.7, 2.62))
     bunga5.rotation_object(bunga5.obj, 45, 0, 0)
     
-    # meja duduk
     bpy.ops.object.select_all(action='DESELECT')
     for i in range(1, 5):
         bpy.data.objects[f'balok.{str(i).zfill(3)}'].select_set(True)
@@ -555,7 +556,6 @@ def main():
     bpy.ops.object.duplicate(linked=False)
     balok = bpy.context.view_layer.objects.active
 
-    # Use the Object3D methods directly on the balok instance
     object3D.scale_object(balok, 0.5, 0.5, 0.5)
     object3D.translate_object(balok, 1.75, 1.9, 4.5)
 
@@ -577,40 +577,54 @@ def main():
         bpy.data.objects[f'bunga.{str(i).zfill(3)}'].select_set(True)
     bpy.data.objects[f'balok.002'].select_set(True)
     bpy.data.objects[f'tiang'].select_set(True)
-    bpy.data.objects[f'meja'].select_set(True)
+    bpy.data.objects[f'meja.001'].select_set(True)
     bpy.data.objects[f'tiang'].select_set(True)
     bpy.data.objects[f'kubus'].select_set(True)
     bpy.data.objects[f'balok.001'].select_set(True)
 
-    bpy.context.view_layer.objects.active = bpy.data.objects['meja']
+    bpy.context.view_layer.objects.active = bpy.data.objects['meja.001']
 
     bpy.ops.object.join()
-    bpy.data.objects[f'meja'].select_set(True)
+    bpy.data.objects[f'meja.001'].select_set(True)
     meja = bpy.context.view_layer.objects.active
-    object3D.translate_object(meja, 27.5, 23.0, 1.2)
-    
-    #duplikat meja duduk
-    bpy.ops.object.join()
+    object3D.rotation_object(meja, 0, 0, 90)
     bpy.ops.object.duplicate(linked=False)
     meja = bpy.context.view_layer.objects.active
-
-    object3D.translate_object(meja, 36.0, 23.0, 1.2)
+    object3D.translate_object(meja, 32, 1.7, 1.5)
     
+    #duplikat tempat duduk
+    for i in range(2):
+        offset = 8.5
+        bpy.ops.object.duplicate(linked=False)
+        meja = bpy.context.view_layer.objects.active
+        object3D.translate_object(meja, 29.5 + offset * i, 23, 1.5)
+        
+        bpy.ops.object.duplicate(linked=False)
+        meja = bpy.context.view_layer.objects.active
+        object3D.translate_object(meja, -1.5 + offset * i, 23, 1.5)
+        
+        bpy.ops.object.duplicate(linked=False)
+        meja = bpy.context.view_layer.objects.active
+        object3D.translate_object(meja, -1.5 + offset * i, 45, 1.5)
+        
+        bpy.ops.object.duplicate(linked=False)
+        meja = bpy.context.view_layer.objects.active
+        object3D.translate_object(meja, 29.5 + offset * i, 45, 1.5)
     # end meja duduk
     
     
-    #jalan dan bunderan
-    jalan1 = Square("jalan.001", 10.3, 60.0, 0.1, location=(12, -8, 0))
-    jalan2 = Square("jalan.002", 50, 10.3, 0.1, location=(-7, 30, 0))
-    bunderan1 = Cylinder("bunderan.001", 8, 0.1, num_segments=64, location=(8.6, 17.55, 0))
-    bunderan2 = Cylinder("bunderan.002", 3.5, 1, num_segments=64, location=(8.6, 17.55, 0))
+    # jalan dan bunderan
+    jalan1 = Square("jalan.001", 10.3, 60.0, 0.15, location=(12, -8, 0))
+    jalan2 = Square("jalan.002", 50, 10.3, 0.15, location=(-7, 30, 0))
+    bunderan1 = Cylinder("bunderan.001", 9, 0.15, num_segments=64, location=(8.6, 17.55, 0))
+    bunderan2 = Cylinder("bunderan.002", 3, 2, num_segments=64, location=(8.6, 17.55, 0))
+    # end jalan dan bunderan
     
-    
-    assign_texture_to_object("meja", "D:/images/Wood.jpg")
-    assign_texture_to_object("meja.001", "D:/images/Wood.jpg")
-#    assign_texture_to_object("jalan.001", "D:/images/Stone.jpg")
-#    assign_texture_to_object("jalan.002", "D:/images/Stone.jpg")
-#    assign_texture_to_object("plane.001", "D:/PavingStones128_1K-JPG/PavingStones128_1K-JPG_Color.jpg")
+    # texturing
+    for i in range(1, 11):
+        object_name = f"meja.{i:03d}"
+        texture_path = "D:/images/Wood.jpg"
+        assign_texture_to_object(object_name, texture_path)
         
     # Join and set material for "putih"
     join_objects_and_set_material(['atap', 'bunderan.002', 'ruangan', 'tiang kiri'], "putih", (1, 1, 1, 1))
@@ -620,38 +634,70 @@ def main():
 
     # Join and set material for "PagarBesi"
     join_objects_and_set_material(['PagarBesi', 'PagarBesiKanan', 'PagarBesiKiri'], "PagarBesi", (0, 0, 0, 1))
+    # end texturing
     
-    # Deselect semua objek
+    # lighting
     bpy.ops.object.select_all(action='DESELECT')
     for i in range(3):
         offset = 5
-        bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(11.6+offset*i, 13.8, 6.3), scale=(1, 1, 1))
-        bpy.context.object.data.energy = 10000
-    for i in range(2):
-        offset = -8.5
-        bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(37.2 + offset * i, 24, 4.7), scale=(1, 1, 1))
-        bpy.context.object.data.energy = 1000
-    bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(17, 32, 1), scale=(1, 1, 1))
-    bpy.context.object.data.energy = 1000
-    bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(17, 38, 1), scale=(1, 1, 1))
-    bpy.context.object.data.energy = 1000
-    bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(20, 35, 1), scale=(1, 1, 1))
-    bpy.context.object.data.energy = 1000
-    bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(14, 35, 1), scale=(1, 1, 1))
-    bpy.context.object.data.energy = 1000
+        bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(11.6 + offset*i, 13.8, 5.5), scale=(1, 1, 1))
+        bpy.context.object.data.energy = 500
     
-    patokanCam = Square("patokanCam", 0, 0, 0, location=(0, 25, 15))
-    # kamera kedua
-    camera2 = create_camera((8, 8, 40))
+    for i in range(2):
+        offset_i = 30.5
+        for j in range(2):
+            offset_j = 1.3
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(-0.2 + offset_i * i + offset_j * j, 2, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(-0.2 + offset_i * i + offset_j * j, 3.5, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+      
+    for i in range(2):
+        offset_i = -8.5
+        for j in range(2):
+            offset_j = 1.3
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(36.3 + offset_i * i + offset_j * j, 23.3, 4.4), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(36.3 + offset_i * i + offset_j * j, 24.8, 4.4), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(36.3 + offset_i * i + offset_j * j, 45.4, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(36.3 + offset_i * i + offset_j * j, 46.6, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(5.4 + offset_i * i + offset_j * j, 23.3, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(5.4 + offset_i * i + offset_j * j, 24.8, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(5.4 + offset_i * i + offset_j * j, 45.4, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200
+            bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(5.4 + offset_i * i + offset_j * j, 46.6, 4.5), scale=(1, 1, 1))
+            bpy.context.object.data.energy = 200         
+              
+    for i in range(2):
+        offset = 5.6
+        bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(17.1, 32.25 + offset * i, 2.3), scale=(1, 1, 1))
+        bpy.context.object.data.energy = 500
+        
+        bpy.ops.object.light_add(type='POINT', radius=1, align='WORLD', location=(14.4 + offset * i, 35, 2.3), scale=(1, 1, 1))
+        bpy.context.object.data.energy = 500
+    # end lighting
+    
+    # camera   
+    patokanCam = Square("patokanCam", 0, 0, 0, location=(15,15, 5))
+    camera2 = create_camera((0, 0, 0))
     add_track_to_constraint(camera2, bpy.context.scene.objects["patokanCam"])
 
     # Pilih objek yang ingin diikuti oleh kamera
-    target_object = bpy.context.scene.objects["patokanCam"]  # Ganti "Cube" dengan nama objek yang sesuai
+    target_object = bpy.context.scene.objects["patokanCam"]
 
     # Atur animasi rotasi kamera untuk kamera kedua
     animation_start_frame = 1
-    animation_end_frame = 1000
+    animation_end_frame = 400
     animate_camera_rotation(camera2, target_object, animation_start_frame, animation_end_frame, 2, 360)
+    # end camera
 
 
     
